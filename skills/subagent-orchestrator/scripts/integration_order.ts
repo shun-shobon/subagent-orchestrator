@@ -36,14 +36,16 @@ function readStringOption(value: unknown, optionName: string, required = false):
 function parseFrontmatter(path: string): Record<string, unknown> {
   const text = readFileSync(path, "utf-8");
   const lines = text.split(/\r?\n/);
+  const firstLine = lines[0];
 
-  if (lines.length === 0 || lines[0].trim() !== "---") {
+  if (!firstLine || firstLine.trim() !== "---") {
     throw new Error(`${path}: frontmatter must start with '---'`);
   }
 
   let endIdx = -1;
   for (let i = 1; i < lines.length; i += 1) {
-    if (lines[i].trim() === "---") {
+    const line = lines[i];
+    if (line?.trim() === "---") {
       endIdx = i;
       break;
     }
@@ -72,9 +74,43 @@ function parseDeps(raw: string): string[] {
     .filter((item) => item.length > 0);
 }
 
+function readFrontmatterString(params: {
+  frontmatter: Record<string, unknown>;
+  key: string;
+  path: string;
+  required?: boolean;
+}): string {
+  const { frontmatter, key, path, required = false } = params;
+  const raw = frontmatter[key];
+  if (raw === undefined || raw === null) {
+    if (required) {
+      throw new Error(`${path}: required field '${key}' is missing`);
+    }
+    return "";
+  }
+  if (typeof raw !== "string") {
+    throw new Error(`${path}: field '${key}' must be a string`);
+  }
+  const value = raw.trim();
+  if (required && value.length === 0) {
+    throw new Error(`${path}: required field '${key}' is empty`);
+  }
+  return value;
+}
+
 function normalizeDeps(raw: unknown, path: string, taskId: string): string[] {
   if (Array.isArray(raw)) {
-    return raw.map((item) => String(item).trim()).filter((item) => item.length > 0 && item !== "-");
+    const deps: string[] = [];
+    for (const item of raw) {
+      if (typeof item !== "string") {
+        throw new Error(`${path}: invalid deps for ${taskId}; deps items must be strings`);
+      }
+      const dep = item.trim();
+      if (dep.length > 0 && dep !== "-") {
+        deps.push(dep);
+      }
+    }
+    return deps;
   }
   if (typeof raw === "string") {
     return parseDeps(raw);
@@ -129,17 +165,12 @@ function loadTasks(tasksDir: string): Map<string, Task> {
   for (const path of taskFiles) {
     const frontmatter = parseFrontmatter(path);
 
-    const taskId = String(frontmatter.id ?? "").trim();
-    if (!taskId) {
-      throw new Error(`${path}: required field 'id' is missing`);
-    }
+    const taskId = readFrontmatterString({ frontmatter, key: "id", path, required: true });
     if (tasks.has(taskId)) {
       throw new Error(`duplicate task id: ${taskId}`);
     }
 
-    const status = String(frontmatter.status ?? "")
-      .trim()
-      .toLowerCase();
+    const status = readFrontmatterString({ frontmatter, key: "status", path, required: true }).toLowerCase();
     if (!ALLOWED_STATUS.has(status)) {
       throw new Error(
         `${path}: invalid status for ${taskId}: ${status} ` +
@@ -147,7 +178,7 @@ function loadTasks(tasksDir: string): Map<string, Task> {
       );
     }
 
-    const summary = String(frontmatter.summary ?? "").trim();
+    const summary = readFrontmatterString({ frontmatter, key: "summary", path });
     const deps = normalizeDeps(frontmatter.deps, path, taskId);
 
     tasks.set(taskId, { taskId, deps, status, summary });

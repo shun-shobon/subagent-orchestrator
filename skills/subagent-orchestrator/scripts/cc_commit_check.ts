@@ -89,6 +89,9 @@ const command = defineCommand({
     }
 
     const summary = subjectMatch[2];
+    if (!summary) {
+      fail(`[error] invalid subject format: ${subject}`);
+    }
     if (summary.length > 40) {
       fail(`[error] summary must be concise (40 chars or less): ${summary}`);
     }
