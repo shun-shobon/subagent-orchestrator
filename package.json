@@ -2,7 +2,6 @@
   "name": "subagent-orchestrator",
   "private": true,
   "type": "module",
-  "module": "index.ts",
   "scripts": {
     "lint": "oxlint --type-aware --type-check",
     "lint:fix": "oxlint --type-aware --type-check --fix",
