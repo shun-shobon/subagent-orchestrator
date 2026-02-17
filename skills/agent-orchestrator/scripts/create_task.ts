@@ -149,13 +149,17 @@ function renderTaskMarkdown(params: {
   branch: string;
 }): string {
   const { taskId, summary, status, deps, branch } = params;
-  const yaml = Bun.YAML.stringify({
-    id: taskId,
-    summary,
-    status,
-    deps,
-    branch,
-  }).trimEnd();
+  const yaml = Bun.YAML.stringify(
+    {
+      id: taskId,
+      summary,
+      status,
+      deps,
+      branch,
+    },
+    null,
+    2,
+  ).trimEnd();
 
   return `---
 ${yaml}

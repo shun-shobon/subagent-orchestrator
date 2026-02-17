@@ -151,7 +151,6 @@ status=todo and all dependencies are done
 `,
         force,
       );
-
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       fail(`[error] failed to initialize orchestration files: ${message}`);
