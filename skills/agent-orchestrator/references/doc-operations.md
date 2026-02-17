@@ -14,8 +14,8 @@
 - タスクの要件・受け入れ条件・調整事項が変わった時に `orchestration/tasks/<task-id>/task.md` を更新する。
 - 再計画の判断理由と変更内容を対象 `orchestration/tasks/<task-id>/task.md` の `Coordinator Notes` に記録する。
 - `orchestration/tasks/<task-id>/task.md` の frontmatter を変更した後に `bun run scripts/integration_order.ts --tasks-dir orchestration/tasks --index-write orchestration/task-index.md` を再実行し、`orchestration/task-index.md` を更新する。
-- サブエージェントの実施内容・PR説明・残課題が変わった時に `orchestration/tasks/<task-id>/subagent-output.md` を更新する。
-- サブエージェント待機開始時刻を `orchestration/tasks/<task-id>/task.md` の `Coordinator Notes` に記録する。
+- タスク実行エージェントの実施内容・PR説明・残課題が変わった時に `orchestration/tasks/<task-id>/task-execution-output.md` を更新する。
+- タスク実行エージェント待機開始時刻を `orchestration/tasks/<task-id>/task.md` の `Coordinator Notes` に記録する。
 - 1時間超過で介入または強制終了した場合、判断理由と結果を `orchestration/tasks/<task-id>/task.md` の `Coordinator Notes` に記録する。
 - レビューごとに `orchestration/tasks/<task-id>/review.md` を更新する。
 - 統合作業ごとに `orchestration/integration-log.md` を更新する。

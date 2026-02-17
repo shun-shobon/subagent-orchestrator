@@ -1,12 +1,8 @@
-# サブエージェント契約
+# タスク実行エージェント契約
 
 ## 入力必須項目
 
 - `task_id`
-- `worktree_path`
-
-補足:
-
 - 役割（実装担当 / レビュー担当）は委任プロンプト本文から判断する。
 - `task.md` の `Goal`、`Scope`、`Non-scope`、`Acceptance Criteria` と frontmatter の `deps` を作業基準として参照する。
 
@@ -14,7 +10,7 @@
 
 - 割り当て範囲に限定したコードまたは文書変更。
 - `definition_of_done` に紐づくテスト証跡。
-- `orchestration/tasks/<task-id>/subagent-output.md` への実施内容追記（実施レポート / PR説明文 / 残課題）。
+- `orchestration/tasks/<task-id>/task-execution-output.md` への実施内容追記（実施レポート / PR説明文 / 残課題）。
 - レビュー担当の場合は `orchestration/tasks/<task-id>/review.md` への記録。
 
 ## エスカレーション条件
@@ -26,8 +22,8 @@
 
 ## 待機・介入ポリシー
 
-- メインエージェントはサブエージェント実行中に途中介入しない。
-- メインエージェントは完了応答まで待機を継続する。
+- プロジェクト管理エージェントはタスク実行エージェント実行中に途中介入しない。
+- プロジェクト管理エージェントは完了応答まで待機を継続する。
 - 待機開始から1時間を超えて未完了の場合のみ介入または強制終了する。
 - 介入または強制終了時は理由、時刻、次アクションを `orchestration/tasks/<task-id>/task.md` の `Coordinator Notes` に記録する。
 

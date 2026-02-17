@@ -39,7 +39,7 @@
 - `Acceptance Criteria`
 - `Coordinator Notes`
 
-`subagent-output.md`:
+`task-execution-output.md`:
 
 - `Execution Report`
 - `PR Description Draft`

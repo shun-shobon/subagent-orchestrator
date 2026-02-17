@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Orchestrator"
+  short_description: "大規模開発の協調オーケストレーションを設計・運用支援"
+  default_prompt: "$subagent-orchestrator を使って、こんなものを作りたいです。"

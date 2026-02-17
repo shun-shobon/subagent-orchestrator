@@ -76,13 +76,13 @@ const command = defineCommand({
         join(orchDir, "README.md"),
         `# Orchestration Files
 
-- \`charter.md\`: 目的、成功条件、制約、意思決定履歴。更新者はメインエージェント。
-- \`tasks/<task-id>/task.md\`: タスク定義。タスク情報のSoT。更新者はメインエージェント。
-- \`tasks/<task-id>/subagent-output.md\`: 実施レポート、PR説明文、残課題。更新者はサブエージェント。
+- \`charter.md\`: 目的、成功条件、制約、意思決定履歴。更新者はプロジェクト管理エージェント。
+- \`tasks/<task-id>/task.md\`: タスク定義。タスク情報のSoT。更新者はプロジェクト管理エージェント。
+- \`tasks/<task-id>/task-execution-output.md\`: 実施レポート、PR説明文、残課題。更新者はタスク実行エージェント。
 - \`tasks/<task-id>/review.md\`: レビュー指摘、判定、対応状況。主にレビュー担当が記録。
 - \`task-index.md\`: Ready Tasks と All Tasks の一覧。\`integration_order.ts\` で生成。
 - \`integration-log.md\`: 統合記録、競合対応、検証結果。主に統合担当が記録。
-- \`handover.md\`: 完了範囲、残課題、次アクション。主にメインエージェントが記録。
+- \`handover.md\`: 完了範囲、残課題、次アクション。主にプロジェクト管理エージェントが記録。
 `,
         force,
       );
@@ -178,8 +178,8 @@ branch: feat/initial-task
       );
 
       writeIfNeeded(
-        join(orchDir, "tasks", "T01", "subagent-output.md"),
-        `# Subagent Output
+        join(orchDir, "tasks", "T01", "task-execution-output.md"),
+        `# Task Execution Output
 
 ## Execution Report
 

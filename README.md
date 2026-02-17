@@ -1,20 +1,15 @@
-# subagent-orchestrator
+# agent-orchestrator
 
-`subagent-orchestrator` は、Codex CLI 向けのエージェントオーケストレーションスキルです。
+`agent-orchestrator` は、Codex CLI 向けのエージェントオーケストレーションスキルです。
 
-大規模なタスクを自動で分割し、複数のサブエージェントに並列で作業を委任して進めることを目的にしています。
+大規模なタスクを分割し、複数のエージェントによる並列実行で進めることを目的にしています。
 
 ## 使い方
 
-1. Codex CLI のサブエージェント機能は現状 experimental のため、`~/.codex/config.toml` に次を設定します。
-   ```toml
-   [features]
-   collab = true
-   ```
-2. このリポジトリの `skills/subagent-orchestrator` を、次のいずれかに配置します。
+1. このリポジトリの `skills/subagent-orchestrator` を、次のいずれかに配置します。
    - `~/.codex/skills/subagent-orchestrator`
    - `<プロジェクトルート>/.agents/skills/subagent-orchestrator`
-3. Codex CLI で、スキルを指定して依頼します。
+2. Codex CLI で、スキルを指定して依頼します。
    ```text
    $subagent-orchestrator を使って、こんなものを作りたい。
    ```

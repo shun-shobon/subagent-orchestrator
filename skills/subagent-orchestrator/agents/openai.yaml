@@ -1,4 +1,0 @@
-interface:
-  display_name: "Subagent Orchestrator"
-  short_description: "大規模開発の協調オーケストレーションを設計・運用支援"
-  default_prompt: "$subagent-orchestrator を使って、大規模タスクをサブエージェントと git worktree で並列オーケストレーションしてください。"

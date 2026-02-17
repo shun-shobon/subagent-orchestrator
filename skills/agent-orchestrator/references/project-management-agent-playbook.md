@@ -1,16 +1,17 @@
-# メインエージェント実行プレイブック
+# プロジェクト管理エージェント実行プレイブック
 
 ## 運用ルール
 
 - 進捗管理、依存調整、要件・要求の深掘りと整理（プロジェクトマネージャー兼プランナー）に専念する。
 - 実装作業とレビュー作業は原則行わない。
-- 実装とレビューは必ずサブエージェントへ委任する。
+- 実装とレビューは必ずタスク実行エージェントへ委任する。
 - 初期指示に不明瞭な点がある場合、作業開始前に必ずユーザーへ確認する。
 - タスク進行中に要件の疑問点や矛盾が生じた場合、推測で進めずユーザーへ確認する。
 - タスク進行中に追加が必要になった作業、または作業途中・完了後に受領した追加要件は新規タスクとして追加してよい。
+- タスクが並列実行可能な場合はなるべく並列実行を行う。
 - 委任対象の各タスクに1つの専用worktreeを必ず割り当てる。
 - `orchestration/` 配下の更新は未コミットで放置せず都度コミットする。
-- サブエージェント待機中は原則として途中介入しない。
+- タスク実行エージェント待機中は原則として途中介入しない。
 - 完了応答まで待機を継続する。
 - 待機開始から1時間を超えて完了しない場合のみ介入または強制終了する。
 
@@ -40,7 +41,7 @@
    - 再計画後は `integration_order.ts` を再実行して `orchestration/task-index.md` を更新する。
 7. 役割を分離する。
    - タスクごとに実装担当とレビュー担当を分離する。
-   - 契約は `references/subagent-contract.md` に従う。
+   - 契約は `references/task-execution-agent-contract.md` に従う。
 8. `orchestration` 更新をコミットする。
    - `orchestration/` 配下の変更を未コミットで残さない。
    - worktree作成前に必ずコミットして、委任先worktreeでも同じ文書を参照できる状態にする。
@@ -49,13 +50,19 @@
    - 1タスクに対して1つのworktreeを作成する。
    - 新規ブランチ込み: `git worktree add -b <branch> .worktrees/<task-id> HEAD`
    - 既存ブランチ利用: `git worktree add .worktrees/<task-id> <branch>`
-10. サブエージェントへ委任する。
-
-- `TASK_ID` と `worktree_path` を渡す。
-- `orchestration/tasks/<task-id>/` 配下を確認して作業するよう指示する。
-- 委任時は `subagent-orchestrator` スキルを必ず利用し、実装担当またはレビュー担当の手順に従うよう指示する。
-- 委任テンプレートは本ファイル末尾の「サブエージェント委任テンプレート（簡潔版）」を参照する。
-- 詳細契約は `references/subagent-contract.md` を参照する。
+10. タスク実行エージェントへ委任する。
+    - `TASK_ID` を渡す。
+    - `orchestration/tasks/<task-id>/` 配下を確認して作業するよう指示する。
+    - 委任時は `subagent-orchestrator` スキルを必ず利用し、実装担当またはレビュー担当の手順に従うよう指示する。
+    - 委任は `exec_task_agent.ts` を用いて実行する。
+    - 新規委任:
+    - `bun run scripts/exec_task_agent.ts --workdir <assigned worktree path> --prompt "<prompt>"`
+    - 既存スレッド再開:
+    - `bun run scripts/exec_task_agent.ts --workdir <assigned worktree path> --thread-id <thread_id> --prompt "<prompt>"`
+    - 標準出力の1行目は `thread_id=<id>`、2行目以降が本文。
+    - 再開に必要な `thread_id` は必ず記録する。
+    - 委任テンプレートは本ファイル末尾の「タスク実行エージェント委任テンプレート（簡潔版）」を参照する。
+    - 詳細契約は `references/task-execution-agent-contract.md` を参照する。
 
 11. コミット規約を強制する。
     - Conventional Commits のみ許可する。
@@ -70,24 +77,20 @@
 14. 引継ぎを完了する。
     - 完了範囲、残課題、次アクションを `orchestration/handover.md` に確定する。
 
-## サブエージェント委任テンプレート（簡潔版）
+## タスク実行エージェント委任テンプレート（簡潔版）
 
 実装担当:
 
 ```text
-あなたはサブエージェントです。TASK_ID=<id> の実装担当です。
+あなたはタスク実行エージェントです。TASK_ID=<id> の実装担当です。
 $subagent-orchestrator スキルを必ず利用し、実装担当の手順に従ってください。
-`orchestration/tasks/<id>/` 配下（特に `task.md` と `subagent-output.md`）を確認し、必要なら `orchestration/task-index.md` で依存状態を確認して作業してください。
-作業場所:
-- worktree_path: <assigned worktree path>
+`orchestration/tasks/<id>/` 配下（特に `task.md` と `task-execution-output.md`）を確認し、必要なら `orchestration/task-index.md` で依存状態を確認して作業してください。
 ```
 
 レビュー担当:
 
 ```text
-あなたはサブエージェントです。TASK_ID=<id> のレビュー担当です。
+あなたはタスク実行エージェントです。TASK_ID=<id> のレビュー担当です。
 $subagent-orchestrator スキルを必ず利用し、レビュー担当の手順に従ってください。
-`orchestration/tasks/<id>/` 配下（特に `task.md`、`subagent-output.md`、`review.md`）を確認し、必要なら `orchestration/task-index.md` で依存状態を確認して作業してください。
-作業場所:
-- worktree_path: <assigned worktree path>
+`orchestration/tasks/<id>/` 配下（特に `task.md`、`task-execution-output.md`、`review.md`）を確認し、必要なら `orchestration/task-index.md` で依存状態を確認して作業してください。
 ```

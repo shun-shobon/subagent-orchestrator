@@ -175,8 +175,8 @@ ${yaml}
 `;
 }
 
-function renderSubagentOutputMarkdown(): string {
-  return `# Subagent Output
+function renderTaskExecutionOutputMarkdown(): string {
+  return `# Task Execution Output
 
 ## Execution Report
 
@@ -290,11 +290,11 @@ const command = defineCommand({
 
     const taskDir = join(tasksDir, taskId);
     const taskFile = join(taskDir, "task.md");
-    const subagentOutputFile = join(taskDir, "subagent-output.md");
+    const taskExecutionOutputFile = join(taskDir, "task-execution-output.md");
     const reviewFile = join(taskDir, "review.md");
 
     if (!force) {
-      const existingFiles = [taskFile, subagentOutputFile, reviewFile].filter((path) =>
+      const existingFiles = [taskFile, taskExecutionOutputFile, reviewFile].filter((path) =>
         existsSync(path),
       );
       if (existingFiles.length > 0) {
@@ -312,7 +312,7 @@ const command = defineCommand({
         renderTaskMarkdown({ taskId, summary, status, deps, branch }),
         "utf-8",
       );
-      writeFileSync(subagentOutputFile, renderSubagentOutputMarkdown(), "utf-8");
+      writeFileSync(taskExecutionOutputFile, renderTaskExecutionOutputMarkdown(), "utf-8");
       writeFileSync(reviewFile, renderReviewMarkdown(), "utf-8");
     } catch (error) {
       fail(
