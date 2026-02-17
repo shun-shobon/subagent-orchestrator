@@ -43,6 +43,5 @@ description: 複数サブエージェントでのオーケストレーション�
 - worktree運用手順が必要な場合: `references/worktree-playbook.md`
 - サブエージェント契約が必要な場合: `references/subagent-contract.md`
 - 役割分離の責務整理が必要な場合: `references/role-separation.md`
-- conventional commits の詳細が必要な場合: `references/conventional-commits.md`
 - 統合と競合解消方針が必要な場合: `references/merge-integration.md`
 - ドキュメント更新規律が必要な場合: `references/doc-operations.md`

@@ -49,5 +49,5 @@
 ## 詳細規約
 
 - サブエージェント契約: `references/subagent-contract.md`
-- コミット規約: `references/conventional-commits.md`
+- コミット規約: Conventional Commits を使い、`scope` は原則使わず `<type>: <summary>` 形式を使う。
 - 役割分離: `references/role-separation.md`

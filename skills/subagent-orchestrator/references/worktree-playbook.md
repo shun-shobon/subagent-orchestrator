@@ -12,8 +12,9 @@
 ## セットアップ
 
 1. ブランチ作成可能な状態か確認する。
-2. `orchestration/tasks/<task-id>/task.md` の frontmatter に `id/status/branch` を記載する。
-3. 次を必要に応じて実行する。
+2. `orchestration/` 配下に変更がある場合は、worktree作成前に先にコミットする。
+3. `orchestration/tasks/<task-id>/task.md` の frontmatter に `id/status/branch` を記載する。
+4. 次を必ず実行する。
    - 新規ブランチ作成込み: `git worktree add -b <branch> .worktrees/<task-id> HEAD`
    - 既存ブランチ利用: `git worktree add .worktrees/<task-id> <branch>`
 
@@ -30,7 +31,7 @@ branch: feat/add-auth-screen
 ```
 
 - 実装担当とレビュー担当は同じ `branch` と `worktree` を共有する。
-- 1件だけ作成したい場合は該当タスクだけ `git worktree add` を実行する。
+- 1タスクに対して1つのworktreeを必ず割り当てる。
 
 ## 同期ルール
 
