@@ -45,9 +45,11 @@
    - 新規ブランチ込み: `git worktree add -b <branch> .worktrees/<task-id> HEAD`
    - 既存ブランチ利用: `git worktree add .worktrees/<task-id> <branch>`
 10. サブエージェントへ委任する。
-   - `TASK_ID` と `worktree_path` を渡す。
-   - `orchestration/tasks/<task-id>/` 配下を確認して作業するよう指示する。
-   - 委任時は `subagent-orchestrator` スキルを必ず利用し、実装担当またはレビュー担当の手順に従うよう指示する。
+
+- `TASK_ID` と `worktree_path` を渡す。
+- `orchestration/tasks/<task-id>/` 配下を確認して作業するよう指示する。
+- 委任時は `subagent-orchestrator` スキルを必ず利用し、実装担当またはレビュー担当の手順に従うよう指示する。
+
 11. コミット規約を強制する。
     - Conventional Commits のみ許可する。
     - `scope` は原則使わず、`<type>: <summary>` を使う。
@@ -67,7 +69,7 @@
 
 ```text
 あなたはサブエージェントです。TASK_ID=<id> の実装担当です。
-`subagent-orchestrator` スキルを必ず利用し、実装担当の手順に従ってください。
+$subagent-orchestrator スキルを必ず利用し、実装担当の手順に従ってください。
 `orchestration/tasks/<id>/` 配下（特に `task.md` と `subagent-output.md`）および `orchestration/task-breakdown.md` を確認して作業してください。
 作業場所:
 - worktree_path: <assigned worktree path>
@@ -77,7 +79,7 @@
 
 ```text
 あなたはサブエージェントです。TASK_ID=<id> のレビュー担当です。
-`subagent-orchestrator` スキルを必ず利用し、レビュー担当の手順に従ってください。
+$subagent-orchestrator スキルを必ず利用し、レビュー担当の手順に従ってください。
 `orchestration/tasks/<id>/` 配下（特に `task.md`、`subagent-output.md`、`review.md`）および `orchestration/task-breakdown.md` を確認して作業してください。
 作業場所:
 - worktree_path: <assigned worktree path>
