@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "subagent-orchestrator-skill",
+      "name": "agent-orchestrator",
       "dependencies": {
         "citty": "0.2.1",
         "consola": "3.4.2",

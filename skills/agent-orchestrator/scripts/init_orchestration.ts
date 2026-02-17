@@ -64,8 +64,10 @@ const command = defineCommand({
 
     validateRepoRoot(root);
     const orchDir = join(root, "orchestration");
+    const tasksDir = join(orchDir, "tasks");
     try {
       mkdirSync(orchDir, { recursive: true });
+      mkdirSync(tasksDir, { recursive: true });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       fail(`[error] failed to create orchestration directory: ${message}`);
@@ -116,13 +118,11 @@ status=todo and all dependencies are done
 
 | Task ID | Summary | Depends On |
 |---|---|---|
-| T01 | initial-task | - |
 
 ## All Tasks
 
 | Task ID | Summary | Status | Depends On | Branch |
 |---|---|---|---|---|
-| T01 | initial-task | todo | - | feat/initial-task |
 `,
         force,
       );
@@ -152,68 +152,6 @@ status=todo and all dependencies are done
         force,
       );
 
-      writeIfNeeded(
-        join(orchDir, "tasks", "T01", "task.md"),
-        `---
-id: T01
-summary: initial-task
-status: todo
-deps: []
-branch: feat/initial-task
----
-
-# T01 initial-task
-
-## Goal
-
-## Scope
-
-## Non-scope
-
-## Acceptance Criteria
-
-## Coordinator Notes
-`,
-        force,
-      );
-
-      writeIfNeeded(
-        join(orchDir, "tasks", "T01", "task-execution-output.md"),
-        `# Task Execution Output
-
-## Execution Report
-
-## PR Description Draft
-
-## Remaining Issues
-`,
-        force,
-      );
-
-      writeIfNeeded(
-        join(orchDir, "tasks", "T01", "review.md"),
-        `# Task Review
-
-## Verdict
-
-- status: pending
-- reviewer:
-- reviewed_at_utc:
-
-## Findings
-
-- severity:
-  file:
-  detail:
-
-## Required Actions
-
-- action:
-  owner:
-  due:
-`,
-        force,
-      );
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       fail(`[error] failed to initialize orchestration files: ${message}`);

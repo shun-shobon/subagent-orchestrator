@@ -53,7 +53,7 @@
 10. タスク実行エージェントへ委任する。
     - `TASK_ID` を渡す。
     - `orchestration/tasks/<task-id>/` 配下を確認して作業するよう指示する。
-    - 委任時は `subagent-orchestrator` スキルを必ず利用し、実装担当またはレビュー担当の手順に従うよう指示する。
+    - 委任時は `agent-orchestrator` スキルを必ず利用し、実装担当またはレビュー担当の手順に従うよう指示する。
     - 委任は `exec_task_agent.ts` を用いて実行する。
     - 新規委任:
     - `bun run scripts/exec_task_agent.ts --workdir <assigned worktree path> --prompt "<prompt>"`
@@ -83,7 +83,7 @@
 
 ```text
 あなたはタスク実行エージェントです。TASK_ID=<id> の実装担当です。
-$subagent-orchestrator スキルを必ず利用し、実装担当の手順に従ってください。
+$agent-orchestrator スキルを必ず利用し、実装担当の手順に従ってください。
 `orchestration/tasks/<id>/` 配下（特に `task.md` と `task-execution-output.md`）を確認し、必要なら `orchestration/task-index.md` で依存状態を確認して作業してください。
 ```
 
@@ -91,6 +91,6 @@ $subagent-orchestrator スキルを必ず利用し、実装担当の手順に従
 
 ```text
 あなたはタスク実行エージェントです。TASK_ID=<id> のレビュー担当です。
-$subagent-orchestrator スキルを必ず利用し、レビュー担当の手順に従ってください。
+$agent-orchestrator スキルを必ず利用し、レビュー担当の手順に従ってください。
 `orchestration/tasks/<id>/` 配下（特に `task.md`、`task-execution-output.md`、`review.md`）を確認し、必要なら `orchestration/task-index.md` で依存状態を確認して作業してください。
 ```

@@ -6,12 +6,12 @@
 
 ## 使い方
 
-1. このリポジトリの `skills/subagent-orchestrator` を、次のいずれかに配置します。
-   - `~/.codex/skills/subagent-orchestrator`
-   - `<プロジェクトルート>/.agents/skills/subagent-orchestrator`
+1. このリポジトリの `skills/agent-orchestrator` を、次のいずれかに配置します。
+   - `~/.codex/skills/agent-orchestrator`
+   - `<プロジェクトルート>/.agents/skills/agent-orchestrator`
 2. Codex CLI で、スキルを指定して依頼します。
    ```text
-   $subagent-orchestrator を使って、こんなものを作りたい。
+   $agent-orchestrator を使って、こんなものを作りたい。
    ```
 
 これだけで、タスク分解と並列実行を前提にした進行に入れます。

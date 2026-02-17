@@ -279,7 +279,7 @@ const command = defineCommand({
       fail(`[error] ${error instanceof Error ? error.message : String(error)}`);
     }
 
-    if (existingTaskIds.has(taskId)) {
+    if (existingTaskIds.has(taskId) && !force) {
       fail(`[error] duplicate task id: ${taskId}`);
     }
 
